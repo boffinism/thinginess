@@ -60,14 +60,16 @@ module Thing
       end.map do |entry|
         entry [:thing]
       end
+      #TODO: Return these wrapped in a Thinginess::Collection class
+      #that includes th Thinginess::Manipulable module
     end
 
     def where(desired_attributes = {})
-
+      #TODO: Move these out to a Thinginess::Manipulable module
     end
 
     def update_all(new_attributes = {})
-
+      #TODO: Move these out to a Thinginess::Manipulable module
     end
   end
 
