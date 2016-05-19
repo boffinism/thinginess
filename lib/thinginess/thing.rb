@@ -4,20 +4,24 @@ module Thing
   end
 
   module ClassMethods
+    include Manipulable
+
     def create(attributes = {})
       thing = self.new
-      thing.assign_attributes(attributes)
-      types = set_types
-      add_to_thing_register({ types: types, thing: thing })
+      thing.attributes = attributes
+      thing.types = gather_types
+      add_to_thing_register(thing)
       thing
     end
 
-    def set_types(current_class=self, types=[])
+    private
+
+    def gather_types(current_class=self, types=[])
       if current_class == Object
         types
       else
         types << current_class
-        set_types current_class.superclass, types
+        gather_types current_class.superclass, types
       end
     end
 
@@ -54,33 +58,12 @@ module Thing
       true
     end
 
-    def all
-      thing_register.select do |entry|
-        entry[:types].include? self
-      end.map do |entry|
-        entry [:thing]
-      end
-      #TODO: Return these wrapped in a Thinginess::Collection class
-      #that includes th Thinginess::Manipulable module
-    end
-
-    def where(desired_attributes = {})
-      #TODO: Move these out to a Thinginess::Manipulable module
-    end
-
-    def update_all(new_attributes = {})
-      #TODO: Move these out to a Thinginess::Manipulable module
+    def things
+      thing_register.select { |entry| entry.types.include? self }
     end
   end
 
-  def assign_attributes(attributes={})
-    @attributes = attributes
-  end
-end
-
-class BaseThing
-  include Thing
-end
-
-class Tree < BaseThing
+  
+  attr_accessor :attributes
+  attr_accessor :types
 end
