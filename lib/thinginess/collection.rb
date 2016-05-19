@@ -1,9 +1,11 @@
-class Collection
-  include Manipulable
+module Thinginess
+  class Collection
+    include Manipulable
 
-  def initialize(things)
-    @things = things
+    def initialize(things)
+      @things = things
+    end
+
+    attr_reader :things
   end
-
-  attr_reader :things
 end
