@@ -1,7 +1,7 @@
 module Thinginess
   module Manipulable
     def where(desired_attributes = {})
-      matching_things  = things.select do |thing|
+      matching_things = things.select do |thing|
         matches = true
         desired_attributes.each do |k, v|
           matches = false unless thing.attributes[k] == v
@@ -35,7 +35,7 @@ module Thinginess
     end
 
     def things
-      raise NotImplementedError, "Anything that includes Manipulable must implement things"
+      raise NotImplementedError, 'Anything that includes Manipulable must implement things'
     end
   end
 end
