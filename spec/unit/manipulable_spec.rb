@@ -3,7 +3,7 @@ require_relative '../../lib/thinginess'
 RSpec.describe Thinginess::Manipulable do
   let(:manipulable_class) do
     Class.new do
-      include Thinginess:: Manipulable
+      include Thinginess::Manipulable
       def initialize(things)
         @things = things
       end
