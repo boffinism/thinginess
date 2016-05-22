@@ -2,7 +2,7 @@ module Thinginess
   class Collection
     include Manipulable
 
-    def initialize(things)
+    def initialize(things = {})
       @things = things
     end
 

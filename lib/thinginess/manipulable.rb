@@ -2,11 +2,9 @@ module Thinginess
   module Manipulable
     def where(desired_attributes = {})
       matching_things = things.select do |thing|
-        matches = true
-        desired_attributes.each do |k, v|
-          matches = false unless thing.attributes[k] == v
+        !desired_attributes.any? do |k, v|
+          thing[k] != v
         end
-        matches
       end
 
       Collection.new(matching_things)
@@ -15,7 +13,7 @@ module Thinginess
     def update_all(new_attributes = {})
       things.each do |thing|
         new_attributes.each do |k, v|
-          thing.attributes[k] = v
+          thing[k] = v
         end
       end
 

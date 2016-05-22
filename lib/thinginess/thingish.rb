@@ -51,5 +51,13 @@ module Thinginess
 
     attr_accessor :attributes
     attr_accessor :types
+
+    def [](key)
+      attributes[key]
+    end
+
+    def []=(key, value)
+      attributes[key] = value
+    end
   end
 end
