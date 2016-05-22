@@ -32,6 +32,8 @@ module Thinginess
       things.length
     end
 
+    private
+
     def things
       raise NotImplementedError, 'Anything that includes Manipulable must implement things'
     end

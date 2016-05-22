@@ -52,6 +52,34 @@ RSpec.describe Thinginess::Thingish do
     end
   end
 
+  describe '.clear_thing_register' do
+    before do
+      thingish_class.create
+      subclass.create
+      sibling_class.create
+    end
+
+    it 'gets rid of all things' do
+      thingish_class.clear_thing_register
+      expect(thingish_class.count).to eq 0
+    end
+
+    it 'gets rid of subclass things' do
+      thingish_class.clear_thing_register
+      expect(subclass.count).to eq 0
+    end
+
+    it 'gets rid of all parent class things' do
+      subclass.clear_thing_register
+      expect(thingish_class.count).to eq 0
+    end
+
+    it 'gets rid of all parent class things' do
+      subclass.clear_thing_register
+      expect(sibling_class.count).to eq 0
+    end
+  end
+
   describe '#[]' do
     it 'delegates to the attributes array' do
       thing = thingish_class.create

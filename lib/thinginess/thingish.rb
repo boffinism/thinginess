@@ -15,6 +15,12 @@ module Thinginess
         thing
       end
 
+      def clear_thing_register
+        do_in_root_thing :clear_thing_register do
+          @thing_register = []
+        end
+      end
+
       protected
 
       def thinginess
@@ -22,9 +28,7 @@ module Thinginess
       end
 
       def thing_register
-        if parent_is_a_thing?
-          superclass.thing_register
-        else
+        do_in_root_thing :thing_register do
           @thing_register ||= []
         end
       end
@@ -37,6 +41,14 @@ module Thinginess
         else
           types << current_class
           gather_types current_class.superclass, types
+        end
+      end
+
+      def do_in_root_thing(method_name)
+        if parent_is_a_thing?
+          superclass.send method_name
+        else
+          yield
         end
       end
 
