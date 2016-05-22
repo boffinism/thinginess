@@ -47,7 +47,6 @@ class BaseObject < Some::Third::Party::Thing
   include Thinginess::Thingish
 end
 ```
-```
 
 ## Resetting the thing register
 You can clear out the global thing register at any time by calling `Thinginess::Thing.clear_thing_register`
