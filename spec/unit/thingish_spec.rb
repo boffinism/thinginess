@@ -9,12 +9,13 @@ RSpec.describe Thinginess::Thingish do
 
   let(:subclass) { Class.new(thingish_class) }
   let(:sibling_class) { Class.new(thingish_class) }
-  let(:args) { :args }
+  let(:args) { { args: :args } }
+
+  subject(:thing) { thingish_class.create args }
 
   before { Thinginess::Thing.clear_thing_register }
 
   describe '.create' do
-    let!(:thing) { thingish_class.create args }
     it 'assigns args as attributes' do
       expect(thing.attributes).to eq args
     end
@@ -24,30 +25,35 @@ RSpec.describe Thinginess::Thingish do
     end
 
     context '(when subclassing a Thingish class)' do
-      let!(:thing) { subclass.create args }
+      subject(:thing) { subclass.create args }
 
       it 'sets #types to an array containing the parent class as well' do
         expect(thing.types).to eq [subclass, thingish_class]
       end
 
       it 'makes the thing available via the subclass manipulable methods' do
+        thing
         expect(subclass.to_a).to eq [thing]
       end
 
       it 'makes the thing available via the parent class manipulable methods' do
+        thing
         expect(thingish_class.to_a).to eq [thing]
       end
 
       it 'does not make the thing available via sibling class manipulable methods' do
+        thing
         expect(sibling_class.to_a).to eq []
       end
     end
 
     it 'makes the thing available via its own manipulable methods' do
+      thing
       expect(thingish_class.to_a).to eq [thing]
     end
 
     it 'does not make the thing available via subclass manipulable methods' do
+      thing
       expect(subclass.to_a).to eq []
     end
   end
@@ -82,7 +88,6 @@ RSpec.describe Thinginess::Thingish do
 
   describe '#[]' do
     it 'delegates to the attributes array' do
-      thing = thingish_class.create
       thing.attributes[:colour] = :blue
 
       expect(thing[:colour]).to eq :blue
@@ -91,10 +96,17 @@ RSpec.describe Thinginess::Thingish do
 
   describe '#[]=' do
     it 'delegates to the attributes array' do
-      thing = thingish_class.create
       thing[:colour] = :blue
 
       expect(thing.attributes[:colour]).to eq :blue
+    end
+  end
+
+  describe '#update' do
+    it 'batch assigns attributes' do
+      thing.update(colour: :red, size: :large)
+      expect(thing[:colour]).to eq :red
+      expect(thing[:size]).to eq :large
     end
   end
 end
