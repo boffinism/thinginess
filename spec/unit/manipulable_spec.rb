@@ -68,15 +68,32 @@ RSpec.describe Thinginess::Manipulable do
     end
   end
 
-  describe '#count' do
-    it 'returns the number of things' do
-      expect(manipulable.count).to eq 3
+  describe '#each' do
+    it 'iterates through the collection' do
+      manipulable.each { |thing| thing.update(size: :large) }
+      expect(manipulable.where(size: :large).count).to eq 3
     end
   end
 
-  describe '#to_a' do
-    it 'returns the things' do
-      expect(manipulable.to_a).to eq things
+  describe '(Enumerable methods)' do
+    [:all?,
+     :any?,
+     :count,
+     :detect,
+     :each_with_index,
+     :find,
+     :first,
+     :include?,
+     :inject,
+     :map,
+     :member?,
+     :none?,
+     :one?,
+     :reduce,
+     :reject,
+     :select,
+     :to_a].each do |enumerable_method|
+      it { should respond_to enumerable_method }
     end
   end
 end

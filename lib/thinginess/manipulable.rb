@@ -1,5 +1,11 @@
 module Thinginess
   module Manipulable
+    include Enumerable
+
+    def each(&block)
+      things.each(&block)
+    end
+
     def where(desired_attributes = {})
       matching_things = things.select do |thing|
         !desired_attributes.any? do |k, v|
@@ -20,14 +26,6 @@ module Thinginess
 
     def all
       Collection.new(things)
-    end
-
-    def to_a
-      things
-    end
-
-    def count
-      things.length
     end
 
     private
