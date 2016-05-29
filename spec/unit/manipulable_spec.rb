@@ -75,6 +75,31 @@ RSpec.describe Thinginess::Manipulable do
     end
   end
 
+  describe '#changed' do
+    let(:first_thing) { double :thing, changed?: true }
+    let(:second_thing) { double :thing, changed?: false }
+    let(:things) { [first_thing, second_thing] }
+    it 'returns a Collection' do
+      expect(manipulable.changed).to be_a Thinginess::Collection
+    end
+
+    it 'returns only things that are changed' do
+      expect(manipulable.changed.count).to eq 1
+    end
+  end
+
+  describe '#reset_change_tracking' do
+    let(:first_thing) { double :thing, reset_change_tracking: nil }
+    let(:second_thing) { double :thing, reset_change_tracking: nil }
+    let(:things) { [first_thing, second_thing] }
+
+    it 'resets change tracking on things' do
+      expect(first_thing).to receive :reset_change_tracking
+      expect(second_thing).to receive :reset_change_tracking
+      manipulable.reset_change_tracking
+    end
+  end
+
   describe '(Enumerable methods)' do
     [:all?,
      :any?,

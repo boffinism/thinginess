@@ -109,4 +109,28 @@ RSpec.describe Thinginess::Thingish do
       expect(thing[:size]).to eq :large
     end
   end
+
+  describe '#changed?' do
+    it 'returns false initially' do
+      expect(thing.changed?).to eq false
+    end
+
+    it 'returns true after an update that changes a property' do
+      thing.update(new: :property)
+      expect(thing.changed?).to eq true
+    end
+
+    it 'returns false after an update that changes nothing' do
+      thing.update(args)
+      expect(thing.changed?).to eq false
+    end
+  end
+
+  describe '#reset_change_tracking' do
+    it 'resets changed? to false' do
+      thing.update(new: :property)
+      thing.reset_change_tracking
+      expect(thing.changed?).to eq false
+    end
+  end
 end

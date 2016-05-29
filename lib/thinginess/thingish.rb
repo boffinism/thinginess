@@ -74,8 +74,17 @@ module Thinginess
 
     def update(new_attributes = {})
       new_attributes.each do |k, v|
+        @changed = true if attributes[k] != v
         attributes[k] = v
       end
+    end
+
+    def changed?
+      @changed || false
+    end
+
+    def reset_change_tracking
+      @changed = false
     end
   end
 end
