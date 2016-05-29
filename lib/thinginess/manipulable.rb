@@ -12,9 +12,7 @@ module Thinginess
 
     def update_all(new_attributes = {})
       things.each do |thing|
-        new_attributes.each do |k, v|
-          thing[k] = v
-        end
+        thing.update(new_attributes)
       end
 
       self

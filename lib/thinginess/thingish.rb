@@ -71,5 +71,11 @@ module Thinginess
     def []=(key, value)
       attributes[key] = value
     end
+
+    def update(new_attributes = {})
+      new_attributes.each do |k, v|
+        attributes[k] = v
+      end
+    end
   end
 end
