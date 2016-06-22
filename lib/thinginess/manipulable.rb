@@ -1,4 +1,10 @@
 module Thinginess
+  # RubyMotion needs to compile Manipulable before Collection because
+  # Collection includes Manipulable. However Manipulable references
+  # Collection, so RubyMotion tries to compile Collection first
+  # and fails. This empty definition gets around that.
+  class Collection; end
+
   module Manipulable
     include Enumerable
 
